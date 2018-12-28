@@ -16,7 +16,7 @@ The library code is actually only a single-file: `QueryReader.fs` so you can add
 
 Namespace `Giraffe.QueryReader` is opened in all examples below
 
-`Query.read` is the only function is this library, it is overloaded so takes a number of strings as the first parameters being the names of the parameters in the query string (for now up to 5 parameters! need more? PRs are welcome) and the last parameter is a function that transforms the parsed query string parameter into another HttpHandler
+`Query.read` is the only function is this library, it is overloaded so takes a number of strings as the first parameters being the names of the parameters in the query string (for now up to 6 parameters. Need more? PRs are welcome) and the last parameter is a function that transforms the parsed query string parameter into another HttpHandler
 
 ### Basis use case: reading *required* parameter as string
 ```fs

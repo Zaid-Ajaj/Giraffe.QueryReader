@@ -172,3 +172,37 @@ type Query() =
                         | Error errorMsg -> badRequest errorMsg
                         | Ok fifthValue ->
                             map (unbox<'t> firstValue) (unbox<'u> secondValue) (unbox<'v> thirdValue) (unbox<'w> forthValue) (unbox<'z> fifthValue)
+
+    static member read<'t, 'u, 'v, 'w, 'z, 'q>(firstName: string, secondName: string, thirdName: string, forthName: string, fifthName: string, sixthName: string, map: 't -> 'u -> 'v -> 'w -> 'z -> 'q -> HttpHandler) : HttpHandler = 
+        request <| fun req ->
+          let firstTypeInfo = typeof<'t>
+          let query = req.Query 
+          match extractValue firstName query firstTypeInfo with 
+          | Error errorMsg -> badRequest errorMsg
+          | Ok firstValue -> 
+            let secondTypeInfo = typeof<'u>
+            match extractValue secondName query secondTypeInfo with 
+            | Error errorMsg -> badRequest errorMsg 
+            | Ok secondValue -> 
+                let thirdTypeInfo = typeof<'v>
+                match extractValue thirdName query thirdTypeInfo with
+                | Error errorMsg -> badRequest errorMsg
+                | Ok thirdValue -> 
+                    let forthTypeInfo = typeof<'w>
+                    match extractValue forthName query forthTypeInfo with 
+                    | Error errorMsg -> badRequest errorMsg 
+                    | Ok forthValue ->  
+                        let fifthTypeInfo = typeof<'z>
+                        match extractValue fifthName query fifthTypeInfo with
+                        | Error errorMsg -> badRequest errorMsg
+                        | Ok fifthValue ->
+                            let sixthTypeInfo = typeof<'q>
+                            match extractValue sixthName query fifthTypeInfo with 
+                            | Error errorMsg -> badRequest errorMsg
+                            | Ok sixthValue -> 
+                                map (unbox<'t> firstValue) 
+                                    (unbox<'u> secondValue) 
+                                    (unbox<'v> thirdValue) 
+                                    (unbox<'w> forthValue) 
+                                    (unbox<'z> fifthValue)
+                                    (unbox<'q> sixthValue)
