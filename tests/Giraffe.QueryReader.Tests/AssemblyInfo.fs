@@ -2,22 +2,22 @@
 namespace System
 open System.Reflection
 
-[<assembly: AssemblyTitleAttribute("Giraffe.SerilogExtensions.Tests")>]
-[<assembly: AssemblyProductAttribute("Giraffe.SerilogExtensions")>]
-[<assembly: AssemblyVersionAttribute("1.1.0")>]
-[<assembly: AssemblyMetadataAttribute("ReleaseDate","2018-12-23T00:00:00.0000000")>]
-[<assembly: AssemblyFileVersionAttribute("1.1.0")>]
-[<assembly: AssemblyInformationalVersionAttribute("1.1.0")>]
+[<assembly: AssemblyTitleAttribute("Giraffe.QueryReader.Tests")>]
+[<assembly: AssemblyProductAttribute("Giraffe.QueryReader")>]
+[<assembly: AssemblyVersionAttribute("1.0.0")>]
+[<assembly: AssemblyMetadataAttribute("ReleaseDate","2018-12-28T00:00:00.0000000")>]
+[<assembly: AssemblyFileVersionAttribute("1.0.0")>]
+[<assembly: AssemblyInformationalVersionAttribute("1.0.0")>]
 [<assembly: AssemblyMetadataAttribute("ReleaseChannel","release")>]
-[<assembly: AssemblyMetadataAttribute("GitHash","27627af278675c1bb4b8773152ea944d89fc99cf")>]
+[<assembly: AssemblyMetadataAttribute("GitHash","028ba38d3304d8b5fd4545b1df412e68b9d61a42")>]
 do ()
 
 module internal AssemblyVersionInformation =
-    let [<Literal>] AssemblyTitle = "Giraffe.SerilogExtensions.Tests"
-    let [<Literal>] AssemblyProduct = "Giraffe.SerilogExtensions"
-    let [<Literal>] AssemblyVersion = "1.1.0"
-    let [<Literal>] AssemblyMetadata_ReleaseDate = "2018-12-23T00:00:00.0000000"
-    let [<Literal>] AssemblyFileVersion = "1.1.0"
-    let [<Literal>] AssemblyInformationalVersion = "1.1.0"
+    let [<Literal>] AssemblyTitle = "Giraffe.QueryReader.Tests"
+    let [<Literal>] AssemblyProduct = "Giraffe.QueryReader"
+    let [<Literal>] AssemblyVersion = "1.0.0"
+    let [<Literal>] AssemblyMetadata_ReleaseDate = "2018-12-28T00:00:00.0000000"
+    let [<Literal>] AssemblyFileVersion = "1.0.0"
+    let [<Literal>] AssemblyInformationalVersion = "1.0.0"
     let [<Literal>] AssemblyMetadata_ReleaseChannel = "release"
-    let [<Literal>] AssemblyMetadata_GitHash = "27627af278675c1bb4b8773152ea944d89fc99cf"
+    let [<Literal>] AssemblyMetadata_GitHash = "028ba38d3304d8b5fd4545b1df412e68b9d61a42"

@@ -1,6 +1,6 @@
-# Giraffe.QueryReader [![Build Status](https://travis-ci.org/Zaid-Ajaj/Giraffe.Giraffe.QueryReader.svg?branch=master)](https://travis-ci.org/Zaid-Ajaj/Giraffe.Giraffe.QueryReader) [![Nuget](https://img.shields.io/nuget/v/Giraffe.Giraffe.QueryReader.svg?colorB=green)](https://www.nuget.org/packages/Giraffe.Giraffe.QueryReader)
+# Giraffe.QueryReader [![Build Status](https://travis-ci.org/Zaid-Ajaj/Giraffe.QueryReader.svg?branch=master)](https://travis-ci.org/Zaid-Ajaj/Giraffe.QueryReader) [![Nuget](https://img.shields.io/nuget/v/Giraffe.QueryReader.svg?colorB=green)](https://www.nuget.org/packages/Giraffe.QueryReader)
 
-HttpHandler for better working with query string paramters within [Giraffe](https://github.com/giraffe-fsharp/Giraffe) applications. Easily extract values from query string in a type-safe manner without defining intermediate types for model binding. The library can parse primitive values and their optional counter parts.  
+HttpHandler for better working with query string paramters within [Giraffe](https://github.com/giraffe-fsharp/Giraffe) applications. Easily extract values from query string in a type-safe manner without defining intermediate types for model binding. The library can parse primitive values and can handle their optional counter parts.
 
 # Install
 ```bash
