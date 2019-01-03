@@ -128,10 +128,12 @@ Notice here that numbers are parsed with an `CultureInfo.InvariantCulture` forma
  - `int`
  - `bool`
  - `float`
+ - `Guid`
  - `Option<string>`
  - `Option<int>`
  - `Option<bool>`
  - `Option<float>`
+ - `Option<Guid>`
 
 Using optional types implies that the query string parameter can be omitted, in which case, `None` will be passed to the function. 
 
