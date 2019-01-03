@@ -49,6 +49,14 @@ module internal Extensions =
                 match Int32.TryParse(value.[0]) with
                 | true, intValue -> Ok (box intValue)
                 | false, _ -> Error (sprintf "Value of query string parameter '%s' was not a valid integer" name)
+            | "System.Int64", 0 ->
+                Error (sprintf "Required value query string parameter '%s' was not found" name)
+            | "System.Int64", n when String.IsNullOrWhiteSpace(value.[0])  ->
+                Error (sprintf "Required value query string parameter '%s' was not found" name)
+            | "System.Int64", n ->
+                match Int64.TryParse(value.[0]) with
+                | true, intValue -> Ok (box intValue)
+                | false, _ -> Error (sprintf "Value of query string parameter '%s' was not a valid integer" name)
             | "System.Double", 0 ->
                 Error (sprintf "Required value query string parameter '%s' was not found" name)
             | "System.Double", n when String.IsNullOrWhiteSpace(value.[0]) ->
@@ -82,6 +90,12 @@ module internal Extensions =
                 | "System.Int32", n when String.IsNullOrWhiteSpace(value.[0]) -> Ok (box None)
                 | "System.Int32", n ->
                     match Int32.TryParse(value.[0]) with
+                    | true, intValue -> Ok (box (Some intValue))
+                    | false, _ -> Error (sprintf "Value of query string parameter '%s' was not a valid integer" name)
+                | "System.Int64", 0 -> Ok (box None)
+                | "System.Int64", n when String.IsNullOrWhiteSpace(value.[0]) -> Ok (box None)
+                | "System.Int64", n ->
+                    match Int64.TryParse(value.[0]) with
                     | true, intValue -> Ok (box (Some intValue))
                     | false, _ -> Error (sprintf "Value of query string parameter '%s' was not a valid integer" name)
                 | "System.Double", 0 -> Ok (box None)

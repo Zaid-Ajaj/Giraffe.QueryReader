@@ -126,11 +126,13 @@ Notice here that numbers are parsed with an `CultureInfo.InvariantCulture` forma
 ### Supported types
  - `string` 
  - `int`
+ - `Int64`
  - `bool`
  - `float`
  - `Guid`
  - `Option<string>`
  - `Option<int>`
+ - `Option<Int64>`
  - `Option<bool>`
  - `Option<float>`
  - `Option<Guid>`

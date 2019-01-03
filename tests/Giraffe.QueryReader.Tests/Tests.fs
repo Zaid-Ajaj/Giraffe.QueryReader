@@ -52,6 +52,16 @@ let testWebApp : HttpHandler =
         let sum = x + defaultArg y 0.0
         text (sprintf "x + y = %.1f" sum))
 
+    route "/int64" >=> Query.read("x", "y",
+        fun (x : int64)  (y : int64)  ->
+            let sum = x + y
+            text (sprintf "x + y = %d" sum))
+
+    route "/int64Optional" >=> Query.read("x", "y",
+        fun (x : int64)  (y : Option<int64>)  ->
+            let sum = x + defaultArg y 0L
+            text (sprintf "x + y = %d" sum))
+
     route "/byId" >=> Query.read<Guid>("id",
         fun guid ->
             text (guid.ToString("n"))
@@ -256,7 +266,7 @@ let tests =
       |> isStatus HttpStatusCode.OK
       |> readTextEqual "value is false"
 
-    testCase "Guid requires value; bad when no value exists" <| fun _ ->
+    testCase "Guid requires value; bad request when no value exists" <| fun _ ->
       use server = new TestServer(createHost())
       use client = server.CreateClient()
       let guid = Guid.NewGuid()
@@ -300,4 +310,48 @@ let tests =
       |> httpGet  "/byIdOptional?id"
       |> isStatus HttpStatusCode.OK
       |> readTextEqual (Guid.Empty.ToString("n"))
+
+    testCase "Int64 requires value; Ok when exists" <| fun _ ->
+      use server = new TestServer(createHost())
+      use client = server.CreateClient()
+      let x = 2L
+      let y = 3L
+
+      client
+      |> httpGet (sprintf "/int64?x=%d&y=%d" x y)
+      |> isStatus HttpStatusCode.OK
+      |> readTextEqual "x + y = 5"
+
+    testCase "Int64 requires value; bad when no value exists" <| fun _ ->
+      use server = new TestServer(createHost())
+      use client = server.CreateClient()
+      let x = 2L
+      let y = 3L
+
+      client
+      |> httpGet (sprintf "/int64" )
+      |> isStatus HttpStatusCode.BadRequest
+      |> ignore
+      client
+      |> httpGet (sprintf "/int64?x=%d" x)
+      |> isStatus HttpStatusCode.BadRequest
+      |> ignore
+      client
+      |> httpGet (sprintf "/int64?y=%d" y)
+      |> isStatus HttpStatusCode.BadRequest
+      |> ignore
+
+    testCase "Optional Int64" <| fun _ ->
+      use server = new TestServer(createHost())
+      use client = server.CreateClient()
+      let x = 2L
+      let y = 3L
+      client
+      |> httpGet (sprintf "/int64Optional?x=%d" x)
+      |> isStatus HttpStatusCode.OK
+      |> readTextEqual "x + y = 2"
+      client
+      |> httpGet (sprintf "/int64Optional?x=%d&y=%d" x y)
+      |> isStatus HttpStatusCode.OK
+      |> readTextEqual "x + y = 5"
   ]
