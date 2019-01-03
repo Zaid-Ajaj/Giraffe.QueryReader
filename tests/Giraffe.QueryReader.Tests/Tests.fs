@@ -66,6 +66,7 @@ let testWebApp : HttpHandler =
         fun guid ->
             text (guid.ToString("n"))
     )
+    
     route "/byIdOptional" >=> Query.read<Option<Guid>>("id",
         function
         | Some guid ->
