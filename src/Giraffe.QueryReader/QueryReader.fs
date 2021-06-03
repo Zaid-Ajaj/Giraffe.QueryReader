@@ -3,7 +3,7 @@ namespace Giraffe.QueryReader
 open System
 open Giraffe
 open Microsoft.AspNetCore.Http
-open FSharp.Control.Tasks.V2
+open FSharp.Control.Tasks
 open System.Threading.Tasks
 open System.Globalization
 
@@ -11,9 +11,9 @@ open System.Globalization
 module internal Extensions =
 
     let internal context (contextMap : HttpContext -> HttpHandler) : HttpHandler =
-      fun (next : HttpFunc) (ctx : HttpContext)  ->
-          let createdHandler = contextMap ctx
-          createdHandler next ctx
+        fun (next : HttpFunc) (ctx : HttpContext)  ->
+            let createdHandler = contextMap ctx
+            createdHandler next ctx
 
     let internal request (requestMap : HttpRequest -> HttpHandler) : HttpHandler =
         context (fun ctx -> requestMap ctx.Request)
@@ -121,116 +121,116 @@ module internal Extensions =
 type Query() =
     static member read<'t>(name: string, map: 't -> HttpHandler) =
         request <| fun req ->
-          let typeInfo = typeof<'t>
-          let query = req.Query
-          match extractValue name query typeInfo with
-          | Ok value -> map (unbox<'t> value)
-          | Error errorMsg -> badRequest errorMsg
+            let typeInfo = typeof<'t>
+            let query = req.Query
+            match extractValue name query typeInfo with
+            | Ok value -> map (unbox<'t> value)
+            | Error errorMsg -> badRequest errorMsg
 
     static member read<'t, 'u>(firstName: string, secondName: string, map: 't -> 'u -> HttpHandler) : HttpHandler =
         request <| fun req ->
-          let firstTypeInfo = typeof<'t>
-          let query = req.Query
-          match extractValue firstName query firstTypeInfo with
-          | Error errorMsg -> badRequest errorMsg
-          | Ok firstValue ->
-            let secondTypeInfo = typeof<'u>
-            match extractValue secondName query secondTypeInfo with
+            let firstTypeInfo = typeof<'t>
+            let query = req.Query
+            match extractValue firstName query firstTypeInfo with
             | Error errorMsg -> badRequest errorMsg
-            | Ok secondValue -> map (unbox<'t> firstValue) (unbox<'u> secondValue)
+            | Ok firstValue ->
+                let secondTypeInfo = typeof<'u>
+                match extractValue secondName query secondTypeInfo with
+                | Error errorMsg -> badRequest errorMsg
+                | Ok secondValue -> map (unbox<'t> firstValue) (unbox<'u> secondValue)
 
     static member read<'t, 'u, 'v>(firstName: string, secondName: string, thirdName: string, map: 't -> 'u -> 'v -> HttpHandler) : HttpHandler =
         request <| fun req ->
-          let firstTypeInfo = typeof<'t>
-          let query = req.Query
-          match extractValue firstName query firstTypeInfo with
-          | Error errorMsg -> badRequest errorMsg
-          | Ok firstValue ->
-            let secondTypeInfo = typeof<'u>
-            match extractValue secondName query secondTypeInfo with
+            let firstTypeInfo = typeof<'t>
+            let query = req.Query
+            match extractValue firstName query firstTypeInfo with
             | Error errorMsg -> badRequest errorMsg
-            | Ok secondValue ->
-                let thirdTypeInfo = typeof<'v>
-                match extractValue thirdName query thirdTypeInfo with
+            | Ok firstValue ->
+                let secondTypeInfo = typeof<'u>
+                match extractValue secondName query secondTypeInfo with
                 | Error errorMsg -> badRequest errorMsg
-                | Ok thirdValue -> map (unbox<'t> firstValue) (unbox<'u> secondValue) (unbox<'v> thirdValue)
+                | Ok secondValue ->
+                    let thirdTypeInfo = typeof<'v>
+                    match extractValue thirdName query thirdTypeInfo with
+                    | Error errorMsg -> badRequest errorMsg
+                    | Ok thirdValue -> map (unbox<'t> firstValue) (unbox<'u> secondValue) (unbox<'v> thirdValue)
 
     static member read<'t, 'u, 'v, 'w>(firstName: string, secondName: string, thirdName: string, forthName: string, map: 't -> 'u -> 'v -> 'w -> HttpHandler) : HttpHandler =
         request <| fun req ->
-          let firstTypeInfo = typeof<'t>
-          let query = req.Query
-          match extractValue firstName query firstTypeInfo with
-          | Error errorMsg -> badRequest errorMsg
-          | Ok firstValue ->
-            let secondTypeInfo = typeof<'u>
-            match extractValue secondName query secondTypeInfo with
+            let firstTypeInfo = typeof<'t>
+            let query = req.Query
+            match extractValue firstName query firstTypeInfo with
             | Error errorMsg -> badRequest errorMsg
-            | Ok secondValue ->
-                let thirdTypeInfo = typeof<'v>
-                match extractValue thirdName query thirdTypeInfo with
+            | Ok firstValue ->
+                let secondTypeInfo = typeof<'u>
+                match extractValue secondName query secondTypeInfo with
                 | Error errorMsg -> badRequest errorMsg
-                | Ok thirdValue ->
-                    let forthTypeInfo = typeof<'w>
-                    match extractValue forthName query forthTypeInfo with
+                | Ok secondValue ->
+                    let thirdTypeInfo = typeof<'v>
+                    match extractValue thirdName query thirdTypeInfo with
                     | Error errorMsg -> badRequest errorMsg
-                    | Ok forthValue ->
-                        map (unbox<'t> firstValue) (unbox<'u> secondValue) (unbox<'v> thirdValue) (unbox<'w> forthValue)
+                    | Ok thirdValue ->
+                        let forthTypeInfo = typeof<'w>
+                        match extractValue forthName query forthTypeInfo with
+                        | Error errorMsg -> badRequest errorMsg
+                        | Ok forthValue ->
+                            map (unbox<'t> firstValue) (unbox<'u> secondValue) (unbox<'v> thirdValue) (unbox<'w> forthValue)
 
     static member read<'t, 'u, 'v, 'w, 'z>(firstName: string, secondName: string, thirdName: string, forthName: string, fifthName: string, map: 't -> 'u -> 'v -> 'w -> 'z -> HttpHandler) : HttpHandler =
         request <| fun req ->
-          let firstTypeInfo = typeof<'t>
-          let query = req.Query
-          match extractValue firstName query firstTypeInfo with
-          | Error errorMsg -> badRequest errorMsg
-          | Ok firstValue ->
-            let secondTypeInfo = typeof<'u>
-            match extractValue secondName query secondTypeInfo with
+            let firstTypeInfo = typeof<'t>
+            let query = req.Query
+            match extractValue firstName query firstTypeInfo with
             | Error errorMsg -> badRequest errorMsg
-            | Ok secondValue ->
-                let thirdTypeInfo = typeof<'v>
-                match extractValue thirdName query thirdTypeInfo with
+            | Ok firstValue ->
+                let secondTypeInfo = typeof<'u>
+                match extractValue secondName query secondTypeInfo with
                 | Error errorMsg -> badRequest errorMsg
-                | Ok thirdValue ->
-                    let forthTypeInfo = typeof<'w>
-                    match extractValue forthName query forthTypeInfo with
+                | Ok secondValue ->
+                    let thirdTypeInfo = typeof<'v>
+                    match extractValue thirdName query thirdTypeInfo with
                     | Error errorMsg -> badRequest errorMsg
-                    | Ok forthValue ->
-                        let fifthTypeInfo = typeof<'z>
-                        match extractValue fifthName query fifthTypeInfo with
+                    | Ok thirdValue ->
+                        let forthTypeInfo = typeof<'w>
+                        match extractValue forthName query forthTypeInfo with
                         | Error errorMsg -> badRequest errorMsg
-                        | Ok fifthValue ->
-                            map (unbox<'t> firstValue) (unbox<'u> secondValue) (unbox<'v> thirdValue) (unbox<'w> forthValue) (unbox<'z> fifthValue)
+                        | Ok forthValue ->
+                            let fifthTypeInfo = typeof<'z>
+                            match extractValue fifthName query fifthTypeInfo with
+                            | Error errorMsg -> badRequest errorMsg
+                            | Ok fifthValue ->
+                                map (unbox<'t> firstValue) (unbox<'u> secondValue) (unbox<'v> thirdValue) (unbox<'w> forthValue) (unbox<'z> fifthValue)
 
     static member read<'t, 'u, 'v, 'w, 'z, 'q>(firstName: string, secondName: string, thirdName: string, forthName: string, fifthName: string, sixthName: string, map: 't -> 'u -> 'v -> 'w -> 'z -> 'q -> HttpHandler) : HttpHandler =
         request <| fun req ->
-          let firstTypeInfo = typeof<'t>
-          let query = req.Query
-          match extractValue firstName query firstTypeInfo with
-          | Error errorMsg -> badRequest errorMsg
-          | Ok firstValue ->
-            let secondTypeInfo = typeof<'u>
-            match extractValue secondName query secondTypeInfo with
+            let firstTypeInfo = typeof<'t>
+            let query = req.Query
+            match extractValue firstName query firstTypeInfo with
             | Error errorMsg -> badRequest errorMsg
-            | Ok secondValue ->
-                let thirdTypeInfo = typeof<'v>
-                match extractValue thirdName query thirdTypeInfo with
+            | Ok firstValue ->
+                let secondTypeInfo = typeof<'u>
+                match extractValue secondName query secondTypeInfo with
                 | Error errorMsg -> badRequest errorMsg
-                | Ok thirdValue ->
-                    let forthTypeInfo = typeof<'w>
-                    match extractValue forthName query forthTypeInfo with
+                | Ok secondValue ->
+                    let thirdTypeInfo = typeof<'v>
+                    match extractValue thirdName query thirdTypeInfo with
                     | Error errorMsg -> badRequest errorMsg
-                    | Ok forthValue ->
-                        let fifthTypeInfo = typeof<'z>
-                        match extractValue fifthName query fifthTypeInfo with
+                    | Ok thirdValue ->
+                        let forthTypeInfo = typeof<'w>
+                        match extractValue forthName query forthTypeInfo with
                         | Error errorMsg -> badRequest errorMsg
-                        | Ok fifthValue ->
-                            let sixthTypeInfo = typeof<'q>
-                            match extractValue sixthName query fifthTypeInfo with
+                        | Ok forthValue ->
+                            let fifthTypeInfo = typeof<'z>
+                            match extractValue fifthName query fifthTypeInfo with
                             | Error errorMsg -> badRequest errorMsg
-                            | Ok sixthValue ->
-                                map (unbox<'t> firstValue)
-                                    (unbox<'u> secondValue)
-                                    (unbox<'v> thirdValue)
-                                    (unbox<'w> forthValue)
-                                    (unbox<'z> fifthValue)
-                                    (unbox<'q> sixthValue)
+                            | Ok fifthValue ->
+                                let sixthTypeInfo = typeof<'q>
+                                match extractValue sixthName query fifthTypeInfo with
+                                | Error errorMsg -> badRequest errorMsg
+                                | Ok sixthValue ->
+                                    map (unbox<'t> firstValue)
+                                        (unbox<'u> secondValue)
+                                        (unbox<'v> thirdValue)
+                                        (unbox<'w> forthValue)
+                                        (unbox<'z> fifthValue)
+                                        (unbox<'q> sixthValue)
